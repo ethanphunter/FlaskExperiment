@@ -4,10 +4,14 @@ from Database import MyDatabase
 db = MyDatabase()
 app = Flask(__name__)
 
+#This is how you define a route
 @app.route("/")
 def index():
+    #The return statement determines what html the user sees
     return render_template("index.html")
 
+#In the html there is a form element that posts to this endpoint
+#This route just prints the email that was submitted in the email input field
 @app.route("/form", methods=["POST"])
 def form():
     email = request.form["email"]
@@ -16,7 +20,7 @@ def form():
 
 @app.route("/search", methods=["POST"])
 def search():
-    results = [db.getById(str(request.form["id"]))]#["1",str(request.form["id"])]
+    results = [db.getById(str(request.form["id"]))]
     return render_template("searchResults.html", results = results)
 
 #if (__name__ == "__main__"):
