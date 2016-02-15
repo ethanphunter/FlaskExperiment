@@ -1,1 +1,1 @@
-web: gunicorn app:aFlaskApp --log-file=-
+web: gunicorn main.py --log-file=-
