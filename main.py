@@ -23,5 +23,9 @@ def search():
     results = [db.getById(str(request.form["id"]))]
     return render_template("searchResults.html", results = results)
 
-#if (__name__ == "__main__"):
-#    app.run()
+@app.route("/inventory")
+def inventory():
+    return render_template("inventory.html", items = db.getItems())
+
+if (__name__ == "__main__"):
+    app.run()

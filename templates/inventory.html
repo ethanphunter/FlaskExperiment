@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Index</title>
+  </head>
+  <body>
+    <table border="4" style="width:50%">
+      {% for item in items %}
+        <tr><td>{{item}}</td><td>{{items[item]}}</td></tr>
+      {% endfor %}
+    </table>
+    <a href="/">back</a>
+  </body>
+</html>
