@@ -19,9 +19,26 @@
         <input type="submit" name="Form">
       </fieldset>
     </form>
+    <form action="/newUser", method="post">
+      email: <br>
+      <input type="text" name="email"></input>
+      password: <br>
+      <input type="text" name="password"></input>
+      <input type="submit" name="newUser"></input>
+    </form>
     <div>
       <p>
         <a href="/inventory">inventory</a>
+      </p>
+      <p>
+        <a href="/secret">Current User</a>
+      </p>
+      <p>
+        <a href="/login">login</a>
+      </p>
+      <p>
+        <a href="/logout">logout</a>
+      </p>
     </div>
   </body>
 </html>

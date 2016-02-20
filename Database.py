@@ -1,4 +1,5 @@
 import json
+from User import User
 
 class MyDatabase():
 
@@ -9,6 +10,7 @@ class MyDatabase():
         for item in jsonData["items"]:
             x[str(item["id"])] = str(item["name"])
         self.items = x
+        self.users = {}
 
     def getById(self,id):
         try:
@@ -18,3 +20,13 @@ class MyDatabase():
 
     def getItems(self):
         return self.items
+
+    def addAUser(self, user):
+        self.users[user.email] = user
+        return user
+
+    def getUser(self, email):
+        try:
+            return self.users[email]
+        except KeyError:
+            return "no match"
