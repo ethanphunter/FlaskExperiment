@@ -41,20 +41,6 @@ def search():
 def inventory():
     return render_template("inventory.html", items = db.getItems())
 
-# This adds a new user to the Database
-@app.route("/newUser", methods=["POST"])
-def new_user():
-    email = request.form["email"]
-    #print(email)
-    password = request.form["password"]
-    #print(password)
-    user = User(email, password)
-    #print(user)
-    db.addAUser(user)
-    #print(password)
-    print("new user: " + user.email)
-    return redirect("/")
-
 # Log a user in. This is a pretty simple way of doing it, but it works
 # I wouldn't use this for a real life system.
 @app.route("/login", methods=["GET","POST"])
@@ -85,7 +71,7 @@ def logout():
     session["current_user"] = None
     print("Logged out")
     session["logged_in"] = False
-    return redirect("/")
+    return render_template("logoutPage.html")
 
 # You should only be able to access this if you are logged in
 @app.route("/secret")
