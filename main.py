@@ -8,6 +8,7 @@ Note: I relieze that storing the user passwords the way I am is a very bad idea,
 from flask import Flask, render_template, request, redirect, session, abort, jsonify
 from Database import MyDatabase
 from User import User
+from UserLoginPackage import login, logout, requireLogin
 
 db = MyDatabase()
 app = Flask(__name__)
@@ -17,6 +18,10 @@ app = Flask(__name__)
 app.config.update(dict(
     #DEBUG=True,
     SECRET_KEY='A Very Very Secret Key'))
+
+# def requireLogin():
+#     if (not session.get("logged_in")):
+#         return abort(401)
 
 # This is how you define a route
 @app.route("/")
@@ -44,40 +49,43 @@ def inventory():
 # Log a user in. This is a pretty simple way of doing it, but it works
 # I wouldn't use this for a real life system.
 @app.route("/login", methods=["GET","POST"])
-def login():
-    if (request.method == "POST"):
-        user = db.getUser(request.form["username"])
-        if (user == "no match"):
-            print("Error!!!")
-            abort(401)
-        else:
-            print("Checking password...")
-            if(user.verify_password(request.form["password"])):
-                print("password is correct!")
-                session['logged_in'] = True
-                print("logged_in set")
-                session["current_user"] = user.email
-                print(user.email + " Logged in")
-                return redirect("/")
-            else:
-                print("Wrong password!!")
-                abort(401)
-    else:
-        return render_template("login.html")
+def signIn():
+    return login(db)
+# def login():
+#     if (request.method == "POST"):
+#         user = db.getUser(request.form["username"])
+#         if (user == "no match"):
+#             print("Error!!!")
+#             abort(401)
+#         else:
+#             print("Checking password...")
+#             if(user.verify_password(request.form["password"])):
+#                 print("password is correct!")
+#                 session['logged_in'] = True
+#                 print("logged_in set")
+#                 session["current_user"] = user.email
+#                 print(user.email + " Logged in")
+#                 return redirect("/")
+#             else:
+#                 print("Wrong password!!")
+#                 abort(401)
+#     else:
+#         return render_template("login.html")
 
 # Log the user out
 @app.route("/logout")
-def logout():
-    session["current_user"] = None
-    print("Logged out")
-    session["logged_in"] = False
-    return render_template("logoutPage.html")
+def signOut():
+    return logout()
+# def logout():
+#     session["current_user"] = None
+#     print("Logged out")
+#     session["logged_in"] = False
+#     return render_template("logoutPage.html")
 
 # You should only be able to access this if you are logged in
 @app.route("/secret")
 def secret():
-    if (not session.get("logged_in")):
-        abort(401)
+    requireLogin()
     return "Current User: " + session.get("current_user")
 
 if (__name__ == "__main__"):
