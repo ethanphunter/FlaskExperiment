@@ -10,4 +10,5 @@ I used the following dependancies in this project, you can install them by runni
   - Flask `pip install flask`
   - requests[security] `pip install requests[security]`
   - gunicorn `pip install gunicorn`
+  - passlib `pip install passlib`
   - Heroku, go to the heroku website to download the tool belt.
