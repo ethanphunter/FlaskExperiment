@@ -1,5 +1,6 @@
 cffi==1.5.2
 cryptography==1.2.2
+dj-database-url==0.4.0
 enum34==1.1.2
 Flask==0.10.1
 Flask-HTTPAuth==2.7.1
@@ -10,6 +11,8 @@ itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
 ndg-httpsclient==0.4.0
+passlib==1.6.5
+psycopg2==2.6.1
 pyasn1==0.1.9
 pycparser==2.14
 pyOpenSSL==0.15.1
