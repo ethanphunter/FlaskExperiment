@@ -18,7 +18,7 @@ app = Flask(__name__)
 # Set Debug to true for development purposes
 # SECRET_KEY is used in the session object
 app.config.update(dict(
-    DEBUG=True,
+    #DEBUG=True,
     SECRET_KEY='A Very Very Secret Key'))
 
 # def requireLogin():
