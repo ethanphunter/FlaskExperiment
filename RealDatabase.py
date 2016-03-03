@@ -38,6 +38,11 @@ class Database():
 
     def getUser(self, email):
         try:
-            return self.users[email]
-        except KeyError:
-            return "no match"
+            self.cursor.execute("""select password from users where username = '{}'""".format(email))
+        except:
+            return "exception Error"
+        rows = self.cursor.fetchall()
+        if (rows == []):
+            return ""
+        else:
+            return rows[0][0]

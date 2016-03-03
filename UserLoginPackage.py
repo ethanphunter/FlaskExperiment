@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, session, abort, jsonify
-# from passlib.apps import custom_app_context as pwd_context
+from passlib.apps import custom_app_context as pwd_context
 
 loginHtml = """<!DOCTYPE html>
 <html>
@@ -66,10 +66,35 @@ def login(db):
         return loginHtml
 
 def logout():
-    session["current_user"] = None
-    print("Logged out")
-    session["logged_in"] = False
-    return logoutHtml
+    if (not session["logged_in"]):
+        return redirect("/")
+    else:
+        session["current_user"] = None
+        print("Logged out")
+        session["logged_in"] = False
+        return logoutHtml
+
+def loginWithRealDb(db):
+        if (request.method == "POST"):
+            passwordHash = db.getUser(request.form["username"])
+            print(passwordHash)
+            if (passwordHash == ""):
+                print("No User Found")
+                return abort(401)
+            else:
+                print("Checking password...")
+                if (pwd_context.verify(request.form["password"], passwordHash)):
+                    print("password is correct!")
+                    session['logged_in'] = True
+                    print("logged_in set")
+                    session["current_user"] = request.form["username"]
+                    print(request.form["username"] + " Logged in")
+                    return redirect("/")
+                else:
+                    print("Wrong password!!")
+                    return abort(401)
+        else:
+            return loginHtml
 
 """
 class User(object):

@@ -10,7 +10,7 @@ class MyDatabase():
         for item in jsonData["items"]:
             x[str(item["id"])] = str(item["name"])
         self.items = x
-        self.users = {"uni": User("uni","purple")}
+        self.users = {}
 
     def getById(self,id):
         try:

@@ -9,7 +9,7 @@ from flask import Flask, render_template, request, redirect, session, abort, jso
 from Database import MyDatabase
 from RealDatabase import Database
 # from User import User
-from UserLoginPackage import login, logout, requireLogin
+from UserLoginPackage import login, logout, requireLogin, loginWithRealDb
 
 db = MyDatabase()
 otherdb = Database()
@@ -18,7 +18,7 @@ app = Flask(__name__)
 # Set Debug to true for development purposes
 # SECRET_KEY is used in the session object
 app.config.update(dict(
-    #DEBUG=True,
+    DEBUG=True,
     SECRET_KEY='A Very Very Secret Key'))
 
 # def requireLogin():
@@ -52,7 +52,7 @@ def inventory():
 # I wouldn't use this for a real life system.
 @app.route("/login", methods=["GET","POST"])
 def signIn():
-    return login(db)
+    return loginWithRealDb(otherdb)#login(db)
 # def login():
 #     if (request.method == "POST"):
 #         user = db.getUser(request.form["username"])
