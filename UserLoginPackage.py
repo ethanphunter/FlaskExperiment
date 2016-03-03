@@ -29,17 +29,6 @@ logoutHtml = """<!DOCTYPE html>
   </body>
 </html>"""
 
-notLoggedInHtml = """<!DOCTYPE html>
-<html>
-  <head>
-    <title>Not Logged in</title>
-  </head>
-  <body>
-    <h2>Not Authorized</h2>
-  </body>
-</html>
-"""
-
 def requireLogin():
     if (not session.get("logged_in")):
         return abort(401)
@@ -95,28 +84,3 @@ def loginWithRealDb(db):
                     return abort(401)
         else:
             return loginHtml
-
-"""
-class User(object):
-
-    def __init__(self,name,password):
-        self.email = name
-        self.password = self.hashPassword(password)
-
-    def hashPassword(self, passw):
-        self.password = pwd_context.encrypt(passw)
-
-    def verify_password(self, passw):
-        return pwd_context.verify(passw, self.password)
-
-    def getPassword(self):
-        return self.password
-
-    def getEmail(self):
-        return self.email
-
-    def serialize(self):
-        return {"username": self.userName}
-
-    def __str__(self):
-        return self.userName"""

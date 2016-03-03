@@ -1,5 +1,4 @@
 import json
-from User import User
 import os
 import psycopg2
 import urlparse
@@ -32,13 +31,9 @@ class Database():
     def getItems(self):
         return self.items
 
-    def addAUser(self, user):
-        self.users[user.email] = user
-        return user
-
-    def getUser(self, email):
+    def getUser(self, username):
         try:
-            self.cursor.execute("""select password from users where username = '{}'""".format(email))
+            self.cursor.execute("""select password from users where username = '{}'""".format(username))
         except:
             return "exception Error"
         rows = self.cursor.fetchall()
