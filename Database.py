@@ -22,7 +22,7 @@ class MyDatabase():
         return self.items
 
     def addAUser(self, user):
-        self.users[user.email] = user
+        self.users[user.getUserName()] = user
         return user
 
     def getUser(self, email):

@@ -7,16 +7,18 @@ Note: I relieze that storing the user passwords the way I am is a very bad idea,
 
 from flask import Flask, render_template, request, redirect, session, abort, jsonify
 from Database import MyDatabase
-from User import User
+from RealDatabase import Database
+# from User import User
 from UserLoginPackage import login, logout, requireLogin
 
 db = MyDatabase()
+otherdb = Database()
 app = Flask(__name__)
 
 # Set Debug to true for development purposes
 # SECRET_KEY is used in the session object
 app.config.update(dict(
-    #DEBUG=True,
+    DEBUG=True,
     SECRET_KEY='A Very Very Secret Key'))
 
 # def requireLogin():
