@@ -11,4 +11,7 @@ I used the following dependancies in this project, you can install them by runni
   - requests[security] `pip install requests[security]`
   - gunicorn `pip install gunicorn`
   - passlib `pip install passlib`
+  - psycopg2 `pip install psycopg2`*
   - Heroku, go to the heroku website to download the tool belt.
+
+*psycopg2 requires you to have psql, on a mac you may need to take a look at [this website](https://rayed.com/wordpress/?p=1743) to help make sure psql can be found.
