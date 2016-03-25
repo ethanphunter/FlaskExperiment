@@ -9,7 +9,7 @@ from RealDatabase import Database
 from UserLoginPackage import login, logout, requireLogin, loginWithRealDb
 
 db = MyDatabase()
-otherdb = Database()
+# otherdb = Database()
 app = Flask(__name__)
 
 # Set Debug to true for development purposes
