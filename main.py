@@ -8,14 +8,14 @@ from Database import MyDatabase
 from RealDatabase import Database
 from UserLoginPackage import login, logout, requireLogin, loginWithRealDb
 
-db = MyDatabase()
-# otherdb = Database()
+# db = MyDatabase()
+otherdb = Database()
 app = Flask(__name__)
 
 # Set Debug to true for development purposes
 # SECRET_KEY is used in the session object
 app.config.update(dict(
-    #DEBUG=True,
+    DEBUG=True,
     SECRET_KEY='A Very Very Secret Key'))
 
 # This is how you define a route
@@ -34,12 +34,12 @@ def form():
 
 @app.route("/search", methods=["POST"])
 def search():
-    results = [db.getById(str(request.form["id"]))]
+    results = [otherdb.getById(str(request.form["id"]))]
     return render_template("searchResults.html", results = results)
 
 @app.route("/inventory")
 def inventory():
-    return render_template("inventory.html", items = db.getItems())
+    return render_template("inventory.html", items = otherdb.getItems())
 
 # Log a user in. This is a pretty simple way of doing it, but it works
 @app.route("/login", methods=["GET","POST"])

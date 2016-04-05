@@ -2,6 +2,7 @@ import json
 import os
 import psycopg2
 import urlparse
+from DatabaseUrlGenerator import getDatabaseUrl
 
 class Database():
 
@@ -11,7 +12,7 @@ class Database():
         self.users = {}
 
         urlparse.uses_netloc.append("postgres")
-        url = urlparse.urlparse(os.environ["DATABASE_URL"])
+        url = urlparse.urlparse(getDatabaseUrl())
 
         self.conn = psycopg2.connect(
             database=url.path[1:],
@@ -29,7 +30,12 @@ class Database():
             return "no match"
 
     def getItems(self):
-        return self.items
+        try:
+            self.cursor.execute("""select * from inventory""")
+        except:
+            return [("exception Error")]
+        rows = self.cursor.fetchall()
+        return rows
 
     def getUser(self, username):
         try:
