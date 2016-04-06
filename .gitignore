@@ -2,3 +2,5 @@
 venv/
 *.pyc
 PasswordPackage.py
+.cache
+databaseurl.txt

@@ -1,6 +1,10 @@
 language: python
 install: pip install -r requirements.txt
-script: python script.py
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+script: py.test script.py
 deploy:
   provider: heroku
   api_key:
