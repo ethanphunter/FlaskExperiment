@@ -57,5 +57,9 @@ def secret():
     requireLogin()
     return "Current User: " + session.get("current_user")
 
+@app.route("/board")
+def board():
+    return render_template("board.html", board = [["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"]])
+
 if (__name__ == "__main__"):
     app.run()

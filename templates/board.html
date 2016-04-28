@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    #NumberBorder {
+      width: 4%;
+      text-align: center;
+      height: 100px;
+      background-color: rgb(177, 177, 177);
+    }
+
+    #LetterBorder {
+      height: 4%;
+      width: 100px;
+      text-align: center;
+      background-color: rgb(177, 177, 177);
+    }
+    #x {
+      height: 100%;
+      width: 100%;
+    }
+    .black {
+      color: white;
+      background-color: black;
+    }
+    .white {
+      color: black;
+      background-color: white;
+    }
+    #moveDiv {
+      float: left;
+    }
+  </style>
+  <body>
+    <table border= "4">
+      <tr>
+        <td style="background-color:rgb(177, 177, 177);">
+
+        </td>
+        <td id="LetterBorder">
+          a
+        </td>
+        <td id="LetterBorder">
+          b
+        </td>
+        <td id="LetterBorder">
+          c
+        </td>
+        <td id="LetterBorder">
+          d
+        </td>
+        <td id="LetterBorder">
+          e
+        </td>
+        <td id="LetterBorder">
+          f
+        </td>
+        <td id="LetterBorder">
+          g
+        </td>
+        <td id="LetterBorder">
+          h
+        </td>
+      </tr>
+      {% set spaceColor = "white" %}
+      {% for row in board %}
+      <tr>
+        <td id="NumberBorder">
+          {{loop.index}}
+        </td>
+
+        {% if spaceColor == "black" %}
+          {% set spaceColor = "white" %}
+        {% else %}
+          {% set spaceColor = "black" %}
+        {% endif %}
+
+        {% for col in row %}
+
+        <td class={{spaceColor}}>
+          <center>
+          {{col}}
+        </center>
+        </td>
+
+        {% if spaceColor == "black" %}
+          {% set spaceColor = "white" %}
+        {% else %}
+          {% set spaceColor = "black" %}
+        {% endif %}
+
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+    <br>
+    <div>
+      <form action="/makeMove" method="post">
+        <div id="moveDiv">
+          Space to Move From
+          <br>
+          row
+          <input type="text" name="from-row"></input><br>
+          col
+          <input type="text" name="from-col"></input><br>
+        </div>
+        <div id="moveDiv">
+          Space to Move To
+          <br>
+          row
+          <input type="text" name="to-row"></input><br>
+          col
+          <input type="text" name="to-col"></input><br>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
