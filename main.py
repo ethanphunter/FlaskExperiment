@@ -7,6 +7,7 @@ from flask import Flask, render_template, request, redirect, session, abort, jso
 from Database import MyDatabase
 from RealDatabase import Database
 from UserLoginPackage import login, logout, requireLogin, loginWithRealDb
+from chessGame import *
 
 # db = MyDatabase()
 otherdb = Database()
@@ -34,7 +35,8 @@ def form():
 
 @app.route("/search", methods=["POST"])
 def search():
-    results = [otherdb.getById(str(request.form["id"]))]
+    results = otherdb.getById(str(request.form["id"]))
+    print(results)
     return render_template("searchResults.html", results = results)
 
 @app.route("/inventory")
@@ -60,6 +62,11 @@ def secret():
 @app.route("/board")
 def board():
     return render_template("board.html", board = [["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"],["a","b","c","d","e","f","g","h"]])
+
+@app.route("/makeMove", methods=["POST"])
+def makeMove():
+    print(newBoard())
+    return redirect("/board")
 
 if (__name__ == "__main__"):
     app.run()

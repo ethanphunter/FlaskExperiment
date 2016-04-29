@@ -23,11 +23,22 @@ class Database():
         )
         self.cursor = self.conn.cursor()
 
-    def getById(self,id):
+    def getQuery(self, queryString):
         try:
-            return self.items[id]
-        except KeyError:
-            return "no match"
+            self.cursor.execute(queryString)
+        except:
+            return ["Error"]
+        rows = self.cursor.fetchall()
+        return rows
+
+    def writeQuery(self, queryString):
+        try:
+            self.cursor.execute(queryStatement)
+        except:
+            return "Error executing write query"
+
+    def getById(self,id):
+        return self.getQuery("""select * from inventory where id = '{}'""".format(id))
 
     def getItems(self):
         try:
