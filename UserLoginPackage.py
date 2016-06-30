@@ -10,9 +10,9 @@ loginHtml = """<!DOCTYPE html>
     <h2>Please Log In</h2>
     <form action="/login", method="post">
       username: <br>
-      <input type="text" name="username"></input>
+      <input type="text" name="username"> <br>
       password: <br>
-      <input type="password" name="password"></input>
+      <input type="password" name="password">
       <input type="submit" name="login">
     </form>
   </body>
@@ -66,7 +66,6 @@ def logout():
 def loginWithRealDb(db):
         if (request.method == "POST"):
             passwordHash = db.getUser(request.form["username"])
-            print(passwordHash)
             if (passwordHash == ""):
                 print("No User Found")
                 return abort(401)
@@ -78,9 +77,35 @@ def loginWithRealDb(db):
                     print("logged_in set")
                     session["current_user"] = request.form["username"]
                     print(request.form["username"] + " Logged in")
+                    session["friend_error"] = ""
                     return redirect("/")
                 else:
                     print("Wrong password!!")
                     return abort(401)
         else:
             return loginHtml
+
+def changePassword(db):
+    username = session.get("current_user")
+    passwordHash = db.getUser(username)
+    oldPassword = request.form["old_password"]
+    newPassword = request.form["new_password"]
+    if (username == "uni"):
+        return redirect("/gameList")
+    if (passwordHash == ""):
+        print("No User found while trying to change password")
+        return abort(401)
+    else:
+        if (pwd_context.verify(oldPassword, passwordHash)):
+            x = db.changePassword(username,pwd_context.encrypt(newPassword))
+            if (x == None):
+                print("password changed")
+                db.enterLogMessage( "~" + username + "~ changed their password")
+                return redirect("/userSettings")
+            else:
+                print("password change query error")
+                db.enterLogMessage("Update Password Query Error for user: ~" + username + "~")
+                return abort(500)
+        else:
+            print("Invalid old password")
+            return redirect("/userSettings")

@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <style>
-    #NumberBorder {
-      width: 4%;
-      text-align: center;
-      height: 100px;
-      background-color: rgb(177, 177, 177);
-    }
+  <head>
+    <title> {{game.getName()}} #{{game.getId()}} </title>
+    <style>
+      #NumberBorder {
+        width: 4%;
+        text-align: center;
+        height: 100px;
+        background-color: rgb(177, 177, 177);
+      }
 
-    #LetterBorder {
-      height: 4%;
-      width: 100px;
-      text-align: center;
-      background-color: rgb(177, 177, 177);
-    }
-    #x {
-      height: 100%;
-      width: 100%;
-    }
-    .black {
-      color: white;
-      background-color: black;
-    }
-    .white {
-      color: black;
-      background-color: white;
-    }
-    #moveDiv {
-      float: left;
-    }
-  </style>
+      #LetterBorder {
+        height: 4%;
+        width: 100px;
+        text-align: center;
+        background-color: rgb(177, 177, 177);
+      }
+      #x {
+        height: 100%;
+        width: 100%;
+      }
+      .black {
+        color: white;
+        background-color: black;
+      }
+      .white {
+        color: black;
+        background-color: white;
+      }
+      #moveDiv {
+        float: left;
+        padding: 10px;
+      }
+    </style>
+  </head>
   <body>
     <table border= "4">
       <tr>
@@ -60,9 +64,12 @@
         <td id="LetterBorder">
           h
         </td>
+        <td style="background-color:rgb(177, 177, 177);">
+
+        </td>
       </tr>
       {% set spaceColor = "white" %}
-      {% for row in board %}
+      {% for row in game.getBoardAsList() %}
       <tr>
         <td id="NumberBorder">
           {{loop.index}}
@@ -89,8 +96,43 @@
         {% endif %}
 
         {% endfor %}
+        <td id="NumberBorder">
+          {{loop.index}}
+        </td>
       </tr>
       {% endfor %}
+      <tr>
+        <td style="background-color:rgb(177, 177, 177);">
+
+        </td>
+        <td id="LetterBorder">
+          a
+        </td>
+        <td id="LetterBorder">
+          b
+        </td>
+        <td id="LetterBorder">
+          c
+        </td>
+        <td id="LetterBorder">
+          d
+        </td>
+        <td id="LetterBorder">
+          e
+        </td>
+        <td id="LetterBorder">
+          f
+        </td>
+        <td id="LetterBorder">
+          g
+        </td>
+        <td id="LetterBorder">
+          h
+        </td>
+        <td style="background-color:rgb(177, 177, 177);">
+
+        </td>
+      </tr>
     </table>
     <br>
     <div>
@@ -115,6 +157,22 @@
           <input type="submit" name="submitButton">
         </div>
       </form>
+      <div id="moveDiv" style="color:red">
+        {{error}}
+        {% if error != "" %}
+          <form action="/closeError">
+            <input type="submit" value="close">
+          </form>
+        {% endif %}
+      </div>
+      <div id="moveDiv">
+        {% if game.getWhoseTurn() != userName %}
+          Their Turn
+        {% endif %}
+      </div>
+      <div>
+        <a href="/gameList">Game List</a>
+      </div>
     </div>
   </body>
 </html>
