@@ -109,3 +109,6 @@ def changePassword(db):
         else:
             print("Invalid old password")
             return redirect("/userSettings")
+
+def encryptString(string):
+    return pwd_context.encrypt(string)

@@ -1,6 +1,7 @@
 from psycopg2.extras import Json
 from SecretGenerator import getDatabaseUrl
 from Utilities import listToCsvString
+from UserLoginPackage import encryptString
 import datetime
 import os
 import psycopg2
@@ -45,10 +46,10 @@ class Database():
             return "Error executing write query"
 
     def setUpTestDb(self,y):
-        self.writeQuery("create table users (username text, password text, games text, friends text, friend_requests text)")
-        self.writeQuery("create table games (game_id text, game_data json, players text, turn text)")
-        self.write("insert into users values ('test1','{}')").format(y[0])
-        self.write("insert into users values ('test2','{}')").format(y[1])
+        # self.writeQuery("create table users (username text, password text, games text, friends text, friend_requests text)")
+        # self.writeQuery("create table games (game_id text, game_data json, players text, turn text)")
+        self.writeQuery("""insert into users values ('test1','{}')""".format(encryptString(y[0])))
+        self.writeQuery("""insert into users values ('test2','{}')""".format(encryptString(y[1])))
 
     def getById(self,id):
         return self.getQuery("""select * from inventory where id = '{}'""".format(id))
