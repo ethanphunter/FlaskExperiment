@@ -70,7 +70,6 @@ def doLogout(client):
     assert '<h2>Logged Out</h2>' in rv.data
 
 def test_index(client):
-    main.db.setUpTestDb([testData["testUser1"]["password"],testData["testUser2"]["password"]])
     rv = client.get("/")
     assert '<h2>Welcome' in rv.data
 
