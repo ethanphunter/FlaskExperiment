@@ -13,9 +13,6 @@ class Database():
         url = getDatabaseUrl()
         if (isinstance(url, str)):
             self.conn = psycopg2.connect(url)
-            if (os.environ.get("TEST") != None):
-                x = os.environ.get("TEST").split("~flask~")
-                self.setUpTestDb(x)
         else:
             parsedUrl = urlparse.urlparse(url)
             self.conn = psycopg2.connect(
@@ -26,6 +23,9 @@ class Database():
                 port     = url.port)
         self.conn.autocommit = True
         self.cursor = self.conn.cursor()
+        if (os.environ.get("TEST") != None):
+                x = os.environ.get("TEST").split("~flask~")
+                self.setUpTestDb(x)
 
     def getQuery(self, queryString):
         try:
