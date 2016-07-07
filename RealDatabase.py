@@ -38,11 +38,11 @@ class Database():
 
     def writeQuery(self, queryString):
         # print(queryString)
-        # try:
-        self.cursor.execute(queryString)
-        #except:
-        #    print("Error executing write query")
-        #    return "Error executing write query"
+        try:
+            self.cursor.execute(queryString)
+        except:
+            print("Error executing write query")
+            return "Error executing write query"
 
     def setUpTestDb(self,y):
         from UserLoginPackage import encryptString
@@ -64,10 +64,10 @@ class Database():
         return rows
 
     def getUser(self, username):
-        #try:
-        self.cursor.execute("""select password from users where username = '{}'""".format(username))
-        #except:
-        #    return "exception Error"
+        try:
+            self.cursor.execute("""select password from users where username = '{}'""".format(username))
+        except:
+            return "exception Error"
         rows = self.cursor.fetchall()
         if (rows == []):
             return ""
