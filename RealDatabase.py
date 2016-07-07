@@ -1,4 +1,4 @@
-from psycopg2.extras import Json, register_json
+from psycopg2.extras import Json, register_default_json
 from SecretGenerator import getDatabaseUrl
 from Utilities import listToCsvString
 import datetime
@@ -46,7 +46,7 @@ class Database():
 
     def setUpTestDb(self,y):
         from UserLoginPackage import encryptString
-        register_json(self.conn)
+        register_default_json(self.conn)
         self.writeQuery("create table users (username text, password text, games text, friends text, friend_requests text)")
         self.writeQuery("create table games (game_id text, game_data text, players text, turn text)")
         self.writeQuery("""insert into users (username, password) values ('test1','{}')""".format(encryptString(y[0])))
