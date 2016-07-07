@@ -70,6 +70,8 @@ def loginWithRealDb(db):
                 print("No User Found")
                 return abort(401)
             else:
+              print("Hash: " + passwordHash)
+              print(request.form["password"])
                 print("Checking password...")
                 if (pwd_context.verify(request.form["password"], passwordHash)):
                     print("password is correct!")
