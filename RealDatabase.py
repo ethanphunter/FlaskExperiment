@@ -63,10 +63,10 @@ class Database():
         return rows
 
     def getUser(self, username):
-        try:
-            self.cursor.execute("""select password from users where username = '{}'""".format(username))
-        except:
-            return "exception Error"
+        #try:
+        self.cursor.execute("""select password from users where username = '{}'""".format(username))
+        #except:
+        #    return "exception Error"
         rows = self.cursor.fetchall()
         if (rows == []):
             return ""
