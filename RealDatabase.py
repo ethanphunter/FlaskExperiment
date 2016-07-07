@@ -18,9 +18,9 @@ class Database():
             self.conn = psycopg2.connect(
                 database = parsedUrl.path[1:],
                 user     = parsedUrl.username,
-                password = url.password,
-                host     = url.hostname,
-                port     = url.port)
+                password = parsedUrl.password,
+                host     = parsedUrl.hostname,
+                port     = parsedUrl.port)
         self.conn.autocommit = True
         self.cursor = self.conn.cursor()
         if (os.environ.get("TEST") != None):
