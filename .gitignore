@@ -5,3 +5,4 @@ PasswordPackage.py
 .cache
 secrets.txt
 __pycache__
+admin/
