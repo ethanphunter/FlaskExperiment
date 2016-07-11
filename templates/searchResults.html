@@ -6,7 +6,11 @@
   <body>
     <table border="4" style="width:50%">
       {% for res in results %}
-        <tr><td>{{res}}</td></tr>
+        <tr>
+        {% for col in res %}
+          <td>{{col}}</td>
+        {% endfor %}
+        </tr>
       {% endfor %}
     </table>
     <a href="/">back</a>

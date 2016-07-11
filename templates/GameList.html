@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Games</title>
+    <link rel="stylesheet" href="/static/styles/main.css"/>
+  </head>
+  <body>
+    <div id="container">
+      <div id="Right">
+        <br>
+        <table>
+          <tr>
+            <td>
+              <a href="/logout">Logout</a>
+            </td>
+            <td>
+              <a href="/userSettings">Settings</a>
+            </td>
+          </tr>
+        </table>
+        <fieldset>
+          <h5>Open a Game</h5>
+          <form action="/openGame" method="post">
+            <select name="gameId">
+              <option value="">
+                Select a GameId
+              </option>
+              {% for game in games %}
+                {% set gameId = game.getId() %}
+                <option value="{{gameId}}">
+                  {{gameId}}
+                </option>
+              {% endfor %}
+            </select><br>
+            <input type="submit" value="Open Game">
+          </form>
+        </fieldset>
+        <fieldset>
+          <h5> Create a Game </h5>
+          <form action="/startGame" method="post">
+            <select name="user">
+              <option value="">
+                Select a friend
+              </option>
+              {% for f in friends %}
+                <option value="{{f}}">
+                  {{f}}
+                </option>
+              {% endfor %}
+            <input type="submit" value="Create Game">
+          </form>
+        </fieldset>
+        <fieldset>
+          <h5>Delete a Game</h5>
+          <form action="/deleteGame" method="post">
+            <select name="gameId">
+              <option value="">
+                Select a GameId
+              </option>
+              {% for game in games %}
+                {% set gameId = game.getId() %}
+                <option value="{{gameId}}">
+                  {{gameId}}
+                </option>
+              {% endfor %}
+            </select><br>
+            <input type="submit" value="Delete Game">
+          </form>
+        </fieldset>
+        <fieldset>
+          <h5>Friends</h5>
+          <table>
+            {% if friends == [] %}
+              <tr>
+                <td>
+                  Looks like you don't have any friends... Go and add some!
+                </td>
+              </tr>
+            {% endif %}
+            {% for f in friends %}
+              <tr>
+                <td>
+                  {{f}}
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </fieldset>
+        <fieldset>
+          <h5>Add a Friend</h5>
+          <form action="/addFriend" method="post">
+            <input type="text" name="friend_username">
+            <input type="submit" value="Add Friend">
+          </form>
+          <p color="red">
+            {{friendError}}
+            {% if friendError != "" %}
+              <form action="/closeFriendError">
+                <input type="submit" value="close">
+              </form>
+            {% endif %}
+          </p>
+        </fieldset>
+        <fieldset>
+          <h5>Friend Requests</h5>
+          <table border ="2">
+            <tr>
+              <th>
+                Username
+              </th>
+              <th>
+                Accept Friend Request
+              </th>
+              <th>
+                Decline Friend Request
+              </th>
+            </tr>
+            {% for r in friendRequests %}
+              <tr>
+                <td>
+                  {{r}}
+                </td>
+                <td>
+                  <form action="/acceptFriendRequest" method="post">
+                    <input type="text" name="friend_username" value="{{r}}" hidden>
+                    <input type="submit" value="Accept">
+                  </form>
+                </td>
+                <td>
+                  <form action="/declineFriendRequest", method="post">
+                    <input type="text" name="friend_username" value="{{r}}" hidden>
+                    <input type="submit" value="Decline">
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </fieldset>
+      </div>
+      <div id="Left">
+        <h2>Welcome {{userName}}</h2>
+        <table id="GameList" border ="4">
+          <tr>
+            <th>
+              Game Id
+            </th>
+            <th>
+              Game Name
+            </th>
+            <th>
+              Other Player
+            </th>
+            <th>
+              Turn
+            </th>
+          </tr>
+          {% if games != [] %}
+            {% for game in games %}
+                <tr>
+                  <td>
+                    {{game.getId()}}
+                  </td>
+                  <td>
+                    {{game.getName()}}
+                  </td>
+                  <td>
+                    {{game.getOtherPlayer(userName)}}
+                  </td>
+                  <td>
+                    {% if userName == game.getWhoseTurn() %}
+                      Your Turn
+                    {% else %}
+                      Their Turn
+                    {% endif %}
+                  </td>
+                </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td>
+                No Active Games
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+            </tr>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
