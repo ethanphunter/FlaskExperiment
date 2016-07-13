@@ -2,37 +2,36 @@
 <html>
   <head>
     <title>Index</title>
+    <link rel="stylesheet" href="/static/styles/main.css"/>
   </head>
   <body>
-    <p style="color:red">This Web App will be undergoing some database changes and will be down at some point within the next week or two.</p>
-    <h2>This is some forms!!!</h2>
-    <form action="/form" method="post">
-      <fieldset>
-        Email:<br>
-        <input type="text" name="email"></input>
-        <input type="submit" name="form"></input>
-      </fieldset>
-    </form>
-    <form action="/search" method="post">
-      <fieldset>
-        Search:<br>
-        <input type="text" name="id"></input>
-        <input type="submit" name="Form">
-      </fieldset>
-    </form>
+    <h2>Welcome to FlaskExperiment!!!</h2>
     <div>
-      <p>
-        <a href="/inventory">inventory</a>
-      </p>
-      <p>
-        <a href="/secret">Current User</a>
-      </p>
-      <p>
-        <a href="/login">login</a>
-      </p>
-      <p>
-        <a href="/logout">logout</a>
-      </p>
+      <div id="Right">
+        <h3> Games </h3>
+        <p>
+          <a href="/login">Login</a>
+        </p>
+        <p>
+          <a href="/logout">Logout</a>
+        </p>
+        <p>
+          <a href="/gameList">Game List</a>
+        </p>
+      </div>
+      <div id="Left">
+        <h3> Flask Example Stuff </h3>
+        <form action="/form" method="post">
+            Email:<br>
+            <input type="text" name="email"></input>
+            <input type="submit" name="form"></input>
+        </form>
+        <div>
+          <p>
+            <a href="/secret">Current User</a>
+          </p>
+        </div>
+      </div>
     </div>
   </body>
 </html>

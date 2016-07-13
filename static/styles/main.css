@@ -1,0 +1,28 @@
+body {
+  max-width: 95%;
+}
+
+div#container {
+  width: 100%;
+}
+
+div#Right {
+  float: right;
+  margin-right: 20px;
+  width: 45%;
+}
+
+div#Left {
+  float: left;
+  margin-left: 20px;
+  width: 45%;
+}
+
+table#GameList {
+  width: 90%;
+  text-align: center;
+}
+
+td {
+  padding: 2px;
+}

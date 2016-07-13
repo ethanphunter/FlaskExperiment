@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Settings</title>
+    <link rel="stylesheet" href="/static/styles/main.css"/>
+  </head>
+  <body>
+    <div id="container">
+      <div id="Right">
+        <br>
+        <table>
+          <tr>
+            <td>
+              <a href="/logout">Logout</a>
+            </td>
+            <td>
+              <a href="/gameList">Game List</a>
+            </td>
+          </tr>
+        </table>
+        <fieldset>
+          <h5>
+            Change Your Password
+          </h5>
+          <form action="/changePassword" method="post">
+            Old Password <br>
+            <input type="password" name="old_password"> <br>
+            New Password <br>
+            <input type="password" name="new_password"> <br>
+            <input type="submit" name="submit" value="Change">
+          </form>
+        </fieldset>
+      </div>
+      <div id="Left">
+        <h2>Welcome {{userName}}</h2>
+        <p>
+          This is the settings page where you can manage your account details.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

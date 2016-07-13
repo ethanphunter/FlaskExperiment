@@ -3,4 +3,6 @@ venv/
 *.pyc
 PasswordPackage.py
 .cache
-databaseurl.txt
+secrets.txt
+__pycache__
+admin/
