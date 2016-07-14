@@ -77,6 +77,18 @@ class Database():
     def changePassword(self,username,password):
         return self.writeQuery("""update users set password = '{password}' where username = '{username}'""".format(password = password, username = username))
 
+    def userIsLockedOut(self,username):
+        return self.getQuery("""select locked_out from users where username = '{username}'""".format(username=username))
+
+    def lockOutUser(self,username):
+        return self.writeQuery("""update users set locked_out = true where username = '{username}'""".format(username = username))
+
+    def getNumberOfAttempts(self,username):
+        return self.getQuery("""select attempts from users where username = '{username}'""".format(username = username))
+
+    def updateNumberOfAttempts(self,username,number):
+        return self.writeQuery("""update users set attempts = {number} where username = '{username}'""".format(username = username, number = number))
+
     def getAllUsernames(self):
         return self.getQuery("""select username from users""")
 
@@ -160,4 +172,4 @@ class Database():
     def enterLogMessage(self,message):
         dt = datetime.datetime.now()
         queryString = """insert into logs (message, time) values ('{message}', {time});""".format(message = message, time = psycopg2.Timestamp(dt.year,dt.month,dt.day,dt.hour,dt.minute,dt.second))
-        self.writeQuery(queryString)
+        return self.writeQuery(queryString)
