@@ -3,15 +3,17 @@ Author: Ethan Hunter
 Comments: A simple Flask app for me to mess around with.
 """
 
+import Database
+import Games
+import Games.ChessGame
+
+from Database.RealDatabase import Database
+from Database.DatabaseUtils import DataBaseUtils
+from Games.GameJson import *
 from flask import Flask, render_template, request, redirect, session
-from RealDatabase import Database
-from databaseUtils import DataBaseUtils
 from UserLoginPackage import login, logout, requireLogin, loginWithRealDb, changePassword
-from chessGame import *
-from GameJson import *
 from SecretGenerator import getSecretKey
 
-# db = MyDatabase()
 db = Database()
 dbutils = DataBaseUtils(db)
 gameJsonDecoder = GameJSONDecoder()
