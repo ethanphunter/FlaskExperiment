@@ -18,6 +18,46 @@ loginHtml = """<!DOCTYPE html>
   </body>
 </html>"""
 
+badCredsHtml = """<!DOCTYPE html>
+<html>
+  <head>
+    <title>Log In</title>
+  </head>
+  <body>
+    <h2>Please Log In</h2>
+    <p style="color:red">
+        Wrong username or password, please check your credentials and try again.
+    </p>
+    <form action="/login", method="post">
+      username: <br>
+      <input type="text" name="username"> <br>
+      password: <br>
+      <input type="password" name="password">
+      <input type="submit" name="login">
+    </form>
+  </body>
+</html>"""
+
+lockedOutHtml = """<!DOCTYPE html>
+<html>
+  <head>
+    <title>Log In</title>
+  </head>
+  <body>
+    <h2>Please Log In</h2>
+    <p style="color:red">
+        Error: Your account has been locked out for security reasons. Please contact the administrator to have your account unlocked.
+    </p>
+    <form action="/login", method="post">
+      username: <br>
+      <input type="text" name="username"> <br>
+      password: <br>
+      <input type="password" name="password">
+      <input type="submit" name="login">
+    </form>
+  </body>
+</html>"""
+
 logoutHtml = """<!DOCTYPE html>
 <html>
   <head>
@@ -26,6 +66,7 @@ logoutHtml = """<!DOCTYPE html>
   <body>
     <h2>Logged Out</h2>
     <a href="/">home</a>
+
   </body>
 </html>"""
 
@@ -65,23 +106,34 @@ def logout():
 
 def loginWithRealDb(db):
         if (request.method == "POST"):
-            passwordHash = db.getUser(request.form["username"])
+            username = request.form["username"]
+            passwordHash = db.getUser(username)
             if (passwordHash == ""):
                 print("No User Found")
-                return abort(401)
+                return badCredsHtml
             else:
-                print("Checking password...")
-                if (pwd_context.verify(request.form["password"], passwordHash)):
-                    print("password is correct!")
-                    session['logged_in'] = True
-                    print("logged_in set")
-                    session["current_user"] = request.form["username"]
-                    print(request.form["username"] + " Logged in")
-                    session["friend_error"] = ""
-                    return redirect("/")
+                if (db.userIsLockedOut(username)[0][0]):
+                    return lockedOutHtml
                 else:
-                    print("Wrong password!!")
-                    return abort(401)
+                    print("Checking password...")
+                    if (pwd_context.verify(request.form["password"], passwordHash)):
+                        db.updateNumberOfAttempts(username, 4)
+                        print("password is correct!")
+                        session['logged_in'] = True
+                        print("logged_in set")
+                        session["current_user"] = username
+                        print(username + " Logged in")
+                        session["friend_error"] = ""
+                        return redirect("/")
+                    else:
+                        attempts = db.getNumberOfAttempts(username)[0][0]
+                        if (attempts <= 1):
+                            db.lockOutUser(username)
+                            db.enterLogMessage("User ~" + username + "~ is now locked out")
+                        else:
+                            db.updateNumberOfAttempts(username, attempts - 1)
+                        print("Wrong password!!")
+                        return badCredsHtml
         else:
             return loginHtml
 
