@@ -10,7 +10,7 @@ def GamesBluePrintConstructor(dataBaseUtils):
     def userSettings():
         requireLogin()
         username = session.get("current_user")
-        return render_template("settings.html",userName = username)
+        return render_template("Settings.html",userName = username)
 
     @GamesBluePrint.route("/changePassword", methods=["POST"])
     def changePasswordEndpoint():

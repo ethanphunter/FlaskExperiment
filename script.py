@@ -91,7 +91,10 @@ def test_main(client):
     assert testData["testUser1"]["username"] in rv.data
     rv = client.post("/acceptFriendRequest", data=acceptFriendRequest, follow_redirects=True)
     assert testData["testUser1"]["username"] in rv.data
+    rv = client.get("/userSettings")
+    assert '<title>Settings</title>' in rv.data
     doLogout(client)
+    assert '<h2>Logged Out</h2>' in rv.data
 
 def test_chessGame(client):
     doLogin(client,testUser2,testData["testUser2"]["password"])
