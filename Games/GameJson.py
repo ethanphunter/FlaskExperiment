@@ -1,5 +1,6 @@
 from flask.json import JSONEncoder, JSONDecoder
-from chessGame import *
+import Games.ChessGame
+from ChessGame import *
 from ChessBoard import *
 from ChessPieces import *
 
