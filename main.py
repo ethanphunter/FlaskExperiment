@@ -3,15 +3,16 @@ Author: Ethan Hunter
 Comments: A simple Flask app for me to mess around with.
 """
 
-import Database
-import Games
-import Games.ChessGame
+import Database_Module
+import Games_Module
+import Games_Module.ChessGame_Module
 
-from Games.GamesBluePrint import GamesBluePrintConstructor
-from Games.ChessGame.ChessGameBluePrint import ChessGameBluePrintConstructor
-from Database.RealDatabase import Database
-from Database.DatabaseUtils import DataBaseUtils
-from Games.GameJson import *
+from Games_Module.GamesBluePrint import GamesBluePrintConstructor
+from Games_Module.ChessGame_Module.ChessGameBluePrint import ChessGameBluePrintConstructor
+from Database_Module.RealDatabase import Database
+from Database_Module.DatabaseUtils import DataBaseUtils
+from Games_Module.GameJson import *
+
 from flask import Flask, render_template, request, redirect, session
 from UserLoginPackage import login, logout, requireLogin, loginWithRealDb, changePassword
 from SecretGenerator import getSecretKey

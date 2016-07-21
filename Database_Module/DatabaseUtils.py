@@ -1,6 +1,6 @@
 from Utilities import *
-from Games.ChessGame import ChessGame
-from Games.GameJson import GameJSONDecoder
+from Games_Module.ChessGame_Module import ChessGame
+from Games_Module.GameJson import GameJSONDecoder
 
 class DataBaseUtils(object):
     def __init__(self,db):

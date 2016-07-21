@@ -1,7 +1,7 @@
 """a user will have a list of game ids that they will be a part of
     a game will have an id, two usernames, whose turn it is, and the board state"""
 
-from Games.Game import Game
+from Games_Module.Game import Game
 from ChessPieces import *
 from ChessBoard import *
 from flask import request, redirect, session, abort
