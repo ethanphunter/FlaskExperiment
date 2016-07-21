@@ -1,5 +1,5 @@
 from Utilities import *
-from chessGame import ChessGame
+from Games.ChessGame import ChessGame
 from GameJson import GameJSONDecoder
 
 class DataBaseUtils(object):
