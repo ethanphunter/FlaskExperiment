@@ -6,7 +6,7 @@ TODO:
 Work on storing the game in the db
 """
 
-from Game import Game
+from Games import Game
 from ChessPieces import *
 from ChessBoard import *
 from flask import request, redirect, session, abort
