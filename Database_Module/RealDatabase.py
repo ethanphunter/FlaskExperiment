@@ -37,7 +37,6 @@ class Database():
         return rows
 
     def writeQuery(self, queryString):
-        # print(queryString)
         try:
             self.cursor.execute(queryString)
         except:
@@ -134,7 +133,6 @@ class Database():
         return self.getQuery("""select game_id from games""")
 
     def createGame(self,gameId,gameData,players,turn):
-        # print(gameData)
         return self.writeQuery("""insert into games values ('{game_id}', {game_data}, '{players}','{turn}')""".format(game_id = gameId, game_data = Json(gameData), players=players, turn=turn))
 
     def updateGame(self,gameId,gameData,turn):
