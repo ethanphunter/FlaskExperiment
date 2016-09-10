@@ -70,4 +70,5 @@ def secret():
     return "Current User: " + session.get("current_user")
 
 if (__name__ == "__main__"):
+    # app.run(host='0.0.0.0') #For running on a local network
     app.run()

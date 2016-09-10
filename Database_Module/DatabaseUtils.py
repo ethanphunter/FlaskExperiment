@@ -68,13 +68,15 @@ class DataBaseUtils(object):
 
 
     def getNextGameId(self):
-        gameIds = self.db.getAllGameIds()
-        highest = 0
-        for gameId in gameIds:
-            intedGameId = int(gameId[0])
-            if (intedGameId > highest):
-                highest = intedGameId
-        return highest + 1
+        gameId = self.db.getMaxGameId()[0][0]
+        return int(gameId) + 1
+        # print(self.db.getMaxGameId())
+        # highest = 0
+        # for gameId in gameIds:
+        #     intedGameId = int(gameId[0])
+        #     if (intedGameId > highest):
+        #         highest = intedGameId
+        # return highest + 1
 
     def getFriends(self,username):
         csv = self.db.getFriendsForUser(username)
