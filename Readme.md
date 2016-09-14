@@ -1,4 +1,4 @@
-## Flask Experiment
+# Flask Experiment
 
 [![Build Status](https://travis-ci.org/ethanphunter/FlaskExperiment.svg?branch=master)](https://travis-ci.org/ethanphunter/FlaskExperiment)
 
