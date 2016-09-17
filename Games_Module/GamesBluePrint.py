@@ -56,6 +56,7 @@ def GamesBluePrintConstructor(dataBaseUtils):
     @GamesBluePrint.route("/gameList")
     def gameList():
         requireLogin()
+        session["gameId"] = ""
         session["BoardError"] = ""
         username = session.get("current_user")
         games = dbutils.getGamesForUser(username)
@@ -85,6 +86,7 @@ def GamesBluePrintConstructor(dataBaseUtils):
         else:
             game = dbutils.getGame(gameId)
             session["chessGame"] = game
+            session["gameId"] = gameId
             return redirect("/board")
 
     return GamesBluePrint
