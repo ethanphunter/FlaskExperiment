@@ -68,7 +68,10 @@ class DataBaseUtils(object):
 
 
     def getNextGameId(self):
-        gameId = self.db.getMaxGameId()[0][0]
+        gameId = 0
+        maybeGameId = self.db.getMaxGameId()
+        if (maybeGameId != []):
+            gameId = maybeGameId[0][0]
         return int(gameId) + 1
         # print(self.db.getMaxGameId())
         # highest = 0
