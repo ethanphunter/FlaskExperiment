@@ -133,7 +133,7 @@ class Database():
         return self.getQuery("""select game_id from games""")
 
     def getMaxGameId(self):
-        return self.getQuery("""select game_id from games where game_id = (select max(game_id) from games)""")
+        return self.getQuery("""select max(game_id) from games""")
 
     def createGame(self,gameId,gameData,players,turn):
         return self.writeQuery("""insert into games values ('{game_id}', {game_data}, '{players}','{turn}')""".format(game_id = gameId, game_data = Json(gameData), players=players, turn=turn))
