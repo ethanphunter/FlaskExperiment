@@ -28,11 +28,11 @@ class Database():
                 self.setUpTestDb(x)
 
     def getQuery(self, queryString):
-        try:
-            self.cursor.execute(queryString)
-        except:
-            print("Error executing get query")
-            return ["Error"]
+        # try:
+        self.cursor.execute(queryString)
+        # except:
+            # print("Error executing get query")
+            # return ["Error"]
         rows = self.cursor.fetchall()
         return rows
 
