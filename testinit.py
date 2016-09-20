@@ -1,4 +1,4 @@
-from tests import TestDatabase
+from tests.testDatabase import TestDatabase
 
 if (__name__ == "__main__"):
     db = TestDatabase()
