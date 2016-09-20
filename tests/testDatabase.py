@@ -11,6 +11,7 @@ class TestDatabase():
     def __init__(self):
         urlparse.uses_netloc.append("postgres")
         url = "dbname = 'travis_ci_test' host = 'localhost' user = 'postgres'"
+        self.conn = psycopg2.connect(url)
         self.conn.autocommit = True
         self.cursor = self.conn.cursor()
         if (os.environ.get("TEST") != None):
