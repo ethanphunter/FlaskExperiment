@@ -74,6 +74,8 @@ class DataBaseUtils(object):
         maybeGameId = self.db.getMaxGameId()
         if (maybeGameId != []):
             gameId = maybeGameId[0][0]
+        else:
+            gameId = "1"
         return int(gameId) + 1
         # print(self.db.getMaxGameId())
         # highest = 0
