@@ -10,6 +10,7 @@ def ChessGameBluePrintConstructor(dbutils,gameJsonDecoder):
         gameId = session.get("gameId")#request.args["gameId"]
         print("Session gameId: " + gameId)
         game = dbutils.getGame(gameId)
+        print("Got game")
         session["chessGame"] = game #gameJsonDecoder.decode(session.get("chessGame"))
         return render_template("ChessBoard.html", game = game, error = session.get("BoardError"), userName = session.get("current_user"))
 

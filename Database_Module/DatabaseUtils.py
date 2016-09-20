@@ -60,7 +60,7 @@ class DataBaseUtils(object):
 
     def getGame(self,gameId):
         gameRow = self.db.getByGameId(gameId)[0]
-        print("Game Row: " + gameRow)
+        print("Game Row: " + str(gameRow))
         gameData = gameRow[1]
         players = gameRow[2]
         turn = gameRow[3]
