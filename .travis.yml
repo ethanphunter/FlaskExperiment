@@ -4,7 +4,9 @@ services:
   - postgresql
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
-script: py.test script.py
+script:
+  - python ./tests/setUpDb.py
+  - py.test ./tests/script.py
 deploy:
   provider: heroku
   api_key:

@@ -25,7 +25,7 @@ class Database():
         self.cursor = self.conn.cursor()
         if (os.environ.get("TEST") != None):
                 x = os.environ.get("TEST").split("~flask~")
-                self.setUpTestDb(x)
+                # self.setUpTestDb(x)
 
     def getQuery(self, queryString):
         # try:
