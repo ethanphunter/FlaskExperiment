@@ -72,7 +72,7 @@ class DataBaseUtils(object):
     def getNextGameId(self):
         gameId = 0
         maybeGameId = self.db.getMaxGameId()
-        if (maybeGameId != []):
+        if (maybeGameId != [] and maybeGameId != [(None,)]):
             gameId = maybeGameId[0][0]
         else:
             gameId = "1"
