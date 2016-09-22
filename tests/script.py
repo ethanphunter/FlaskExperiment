@@ -103,4 +103,3 @@ def test_chessGame(client):
     assert 'Their Turn' in rv.data
     doLogout(client)
     doLogin(client,testUser1,testData["testUser1"]["password"])
-    # rv = client.post()

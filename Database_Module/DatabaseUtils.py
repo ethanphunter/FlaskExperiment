@@ -37,8 +37,6 @@ class DataBaseUtils(object):
             return None
 
     def updateGame(self,game):
-        print("UpdateGame says it's " + game.getWhoseTurn() + "'s turn")
-        # self.db.deleteGameByGameId(game.getId())
         self.db.updateGame(game.getId(),game.json(),game.getWhoseTurn())
 
     def deleteGame(self,gameId,user):
@@ -60,7 +58,6 @@ class DataBaseUtils(object):
 
     def getGame(self,gameId):
         gameRow = self.db.getByGameId(gameId)[0]
-        # print("Game Row: " + str(gameRow))
         gameData = gameRow[1]
         players = gameRow[2]
         turn = gameRow[3]
@@ -77,13 +74,6 @@ class DataBaseUtils(object):
         else:
             gameId = "1"
         return int(gameId) + 1
-        # print(self.db.getMaxGameId())
-        # highest = 0
-        # for gameId in gameIds:
-        #     intedGameId = int(gameId[0])
-        #     if (intedGameId > highest):
-        #         highest = intedGameId
-        # return highest + 1
 
     def getFriends(self,username):
         csv = self.db.getFriendsForUser(username)

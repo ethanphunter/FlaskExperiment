@@ -1,5 +1,4 @@
 from flask.json import JSONEncoder, JSONDecoder
-# from ChessGame import *
 from ChessGame_Module.ChessGame import ChessGame
 from ChessGame_Module.ChessBoard import *
 from ChessGame_Module.ChessPieces import *
@@ -22,26 +21,11 @@ class GameJSONEncoder(JSONEncoder):
 class GameJSONDecoder(object):
     def __init__(self):
         pass
-        # self.j = JSONDecoder(object_hook=self.object_hook)
 
     def decode(self, obj):
-        # print(obj)
-        # if "board" not in obj:
-            # return super(GameJSONDecoder, self).decode(obj)
-        # else:
-            # aType = obj,
-            # if (aType == "ChessGame"):
-                # print("YESSSSSSSSSSS: " + aType)
-            # return "obj[]"
         if ("chessGame" not in obj):
-        # print(obj)
-            # return super(GameJSONDecoder, self).decode(obj)
             return ""
         else:
-            # print("YESSSSSSSSSSS")
             game = ChessGame("",["",""])
-            # print("Yes")
             x = game.decode(obj["chessGame"])
-            # print("Yeah")
             return game
-            # return super(GameJSONDecoder, self).decode(obj)

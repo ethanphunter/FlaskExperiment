@@ -28,11 +28,11 @@ class TestDatabase():
         return rows
 
     def writeQuery(self, queryString):
-        # try:
-        self.cursor.execute(queryString)
-        # except:
-            # print("Error executing write query")
-            # return "Error executing write query"
+        try:
+            self.cursor.execute(queryString)
+        except:
+            print("Error executing write query")
+            return "Error executing write query"
 
     def setUpTestDb(self,y):
         from UserLoginPackage import encryptString

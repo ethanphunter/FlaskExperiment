@@ -7,11 +7,9 @@ def ChessGameBluePrintConstructor(dbutils,gameJsonDecoder):
     @ChessGameBluePrint.route("/board")
     def board():
         requireLogin()
-        gameId = session.get("gameId")#request.args["gameId"]
-        # print("Session gameId: " + gameId)
+        gameId = session.get("gameId")
         game = dbutils.getGame(gameId)
-        # print("Got game")
-        session["chessGame"] = game #gameJsonDecoder.decode(session.get("chessGame"))
+        session["chessGame"] = game
         return render_template("ChessBoard.html", game = game, error = session.get("BoardError"), userName = session.get("current_user"))
 
     @ChessGameBluePrint.route("/closeError")
