@@ -1,7 +1,5 @@
 language: python
 install: pip install -r requirements.txt
-services:
-  - postgresql
 addons:
   postgresql: "9.5"
 before_script:
