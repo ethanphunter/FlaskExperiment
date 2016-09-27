@@ -14,7 +14,7 @@ from Database_Module.DatabaseUtils import DataBaseUtils
 from Games_Module.GameJson import *
 
 from flask import Flask, render_template, request, redirect, session
-from UserLoginPackage import login, logout, requireLogin, loginWithRealDb, changePassword
+from UserLoginPackage import logout, requireLogin, loginWithRealDb, changePassword
 from SecretGenerator import getSecretKey
 
 db = Database()
@@ -27,7 +27,7 @@ app.register_blueprint(ChessGameBluePrintConstructor(dbutils,gameJsonDecoder))
 # Set Debug to true for development purposes
 # SECRET_KEY is used in the session object
 app.config.update(dict(
-    DEBUG = True,
+    DEBUG = False,
     SECRET_KEY = getSecretKey()))
 
 app.json_encoder = GameJSONEncoder
