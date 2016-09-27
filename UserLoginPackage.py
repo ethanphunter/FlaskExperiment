@@ -77,27 +77,6 @@ def requireLogin():
     if (not session.get("logged_in")):
         return abort(401)
 
-def login(db):
-    if (request.method == "POST"):
-        user = db.getUser(request.form["username"])
-        if (user == "no match"):
-            print("Error!!!")
-            return abort(401)
-        else:
-            print("Checking password...")
-            if(user.verify_password(request.form["password"])):
-                print("password is correct!")
-                session['logged_in'] = True
-                print("logged_in set")
-                session["current_user"] = user.getUserName()
-                print(user.getUserName() + " Logged in")
-                return redirect("/")
-            else:
-                print("Wrong password!!")
-                return abort(401)
-    else:
-        return loginHtml
-
 def logout():
     if (not session["logged_in"]):
         return redirect("/")
