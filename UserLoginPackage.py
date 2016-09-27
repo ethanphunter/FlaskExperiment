@@ -7,6 +7,7 @@ loginHtml = """<!DOCTYPE html>
     <title>Log In</title>
   </head>
   <body>
+      <a href="/">Home</a>
     <h2>Please Log In</h2>
     <form action="/login", method="post">
       username: <br>
@@ -24,6 +25,7 @@ badCredsHtml = """<!DOCTYPE html>
     <title>Log In</title>
   </head>
   <body>
+    <a href="/">Home</a>
     <h2>Please Log In</h2>
     <p style="color:red">
         Wrong username or password, please check your credentials and try again.
@@ -44,6 +46,7 @@ lockedOutHtml = """<!DOCTYPE html>
     <title>Log In</title>
   </head>
   <body>
+    <a href="/">Home</a>
     <h2>Please Log In</h2>
     <p style="color:red">
         Error: Your account has been locked out for security reasons. Please contact the administrator to have your account unlocked.
@@ -127,7 +130,7 @@ def loginWithRealDb(db):
                         return redirect("/")
                     else:
                         attempts = db.getNumberOfAttempts(username)[0][0]
-                        if (attempts <= 1):
+                        if (attempts < 1 or attempts > 4):
                             db.lockOutUser(username)
                             db.enterLogMessage("User ~" + username + "~ is now locked out")
                         else:
