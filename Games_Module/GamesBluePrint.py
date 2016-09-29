@@ -17,6 +17,18 @@ def GamesBluePrintConstructor(dataBaseUtils):
         requireLogin()
         return changePassword(db)
 
+    @GamesBluePrint.route("/removeFriend")
+    def removeFriendEndpoint():
+        requireLogin()
+        username = request.form["username"]
+        friend   = request.form["friend"]
+        if (friend == ""):
+            return redirect("/userSettings")
+        error = dbutils.removeFriend(username,friend)
+        print(error)
+        return redirect("/userSettings")
+
+
     @GamesBluePrint.route("/addFriend", methods=["POST"])
     def addFriend():
         requireLogin()

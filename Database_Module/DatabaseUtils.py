@@ -126,3 +126,14 @@ class DataBaseUtils(object):
             else:
                 a = self.db.addFriend(otherUsername,username)
                 return "Request sent"
+
+    def removeFriend(self,username,friend):
+        x = self.db.removeFriend(username,friend)
+        if (x == None):
+            return "Error"
+        else:
+            y = self.db.removeFriend(friend,username)
+            if (y == None):
+                return "Error"
+            else:
+                return "Success"

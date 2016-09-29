@@ -36,6 +36,7 @@ class Database():
     def writeQuery(self, queryString):
         try:
             self.cursor.execute(queryString)
+            return "Success"
         except:
             print("Error executing write query")
             return "Error executing write query"
@@ -112,6 +113,20 @@ class Database():
             csv.remove(otherUsername)
             newFriendRequestList = listToCsvString(csv)
         return self.writeQuery("""update users set friend_requests = '{friend_requests}'""".format(friend_requests = newFriendRequestList))
+
+    def removeFriend(self,username,friend):
+        oldFriendsCsv = self.getFriendsForUser(username)
+        if (oldFriendsCsv == [(None,)] or oldsFriendCsv == [("",)]):
+            oldFriends = []
+        else:
+            oldFriends = oldFriendCsv[0][0]
+        if (friend in oldFriends):
+            oldFriends.remove(friend)
+        else:
+            print("~" + username + "~ is not friends with ~" + friend + "~")
+            return None
+        newFriends = oldFriends
+        return self.writeQuery("""update users set friends = {friends} where username = {username}""".format(friends = newFriends, username = username))
 
     def addFriend(self,username,otherUsername):
         oldFriendRequests = self.getFriendRequestsForUser(username)
