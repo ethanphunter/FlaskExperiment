@@ -15,7 +15,7 @@ def GamesBluePrintConstructor(dataBaseUtils):
     @GamesBluePrint.route("/changePassword", methods=["POST"])
     def changePasswordEndpoint():
         requireLogin()
-        return changePassword(db)
+        return dbutils.changePassword()
 
     @GamesBluePrint.route("/addFriend", methods=["POST"])
     def addFriend():
