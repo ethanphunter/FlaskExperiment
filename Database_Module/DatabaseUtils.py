@@ -1,6 +1,7 @@
 from Utilities import *
 from Games_Module.ChessGame_Module.ChessGame import ChessGame
 from Games_Module.GameJson import GameJSONDecoder
+from UserLoginPackage import changePassword
 
 class DataBaseUtils(object):
     def __init__(self,db):
@@ -137,3 +138,6 @@ class DataBaseUtils(object):
                 return "Error"
             else:
                 return "Success"
+
+    def changePassword(self):
+        return changePassword(self.db)
