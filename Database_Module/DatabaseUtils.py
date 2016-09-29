@@ -1,6 +1,7 @@
 from Utilities import *
 from Games_Module.ChessGame_Module.ChessGame import ChessGame
 from Games_Module.GameJson import GameJSONDecoder
+from UserLoginPackage import changePassword
 
 class DataBaseUtils(object):
     def __init__(self,db):
@@ -127,3 +128,6 @@ class DataBaseUtils(object):
             else:
                 a = self.db.addFriend(otherUsername,username)
                 return "Request sent"
+
+    def changePassword(self):
+        return changePassword(self.db)
