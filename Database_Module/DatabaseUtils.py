@@ -98,7 +98,7 @@ class DataBaseUtils(object):
         return toFlaskDelimitedString([x,a])
 
     def declineFriendRequest(self,username,otherUsername):
-        # x = self.db.removeFriendRequest(username,otherUsername)
+        x = self.db.removeFriendRequest(username,otherUsername)
         y = self.db.removeFriendRequest(username,otherUsername)
         return y
 
