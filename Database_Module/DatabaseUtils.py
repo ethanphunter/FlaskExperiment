@@ -99,8 +99,8 @@ class DataBaseUtils(object):
 
     def declineFriendRequest(self,username,otherUsername):
         x = self.db.removeFriendRequest(username,otherUsername)
-        y = self.db.removeFriendRequest(username,otherUsername)
-        return y
+        # y = self.db.removeFriendRequest(username,otherUsername)
+        return x
 
     def addFriendRequest(self,username,otherUsername):
         currentFriendsCsv = self.db.getFriendsForUser(username)
