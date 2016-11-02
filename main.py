@@ -11,6 +11,7 @@ from Games_Module.GamesBluePrint import GamesBluePrintConstructor
 from Games_Module.ChessGame_Module.ChessGameBluePrint import ChessGameBluePrintConstructor
 from Database_Module.RealDatabase import Database
 from Database_Module.DatabaseUtils import DataBaseUtils
+from Database_Module.PostgresDatabase import PostgresDatabase
 from Games_Module.GameJson import *
 
 from flask import Flask, render_template, request, redirect, session
@@ -27,10 +28,15 @@ app.register_blueprint(ChessGameBluePrintConstructor(dbutils,gameJsonDecoder))
 # Set Debug to true for development purposes
 # SECRET_KEY is used in the session object
 app.config.update(dict(
-    DEBUG = False,
+    DEBUG = True,
     SECRET_KEY = getSecretKey()))
 
 app.json_encoder = GameJSONEncoder
+database = PostgresDatabase()
+
+@app.route("/test")
+def test():
+    return str(database.getUser2().getOrElse("Failure"))
 
 # This is how you define a route
 @app.route("/")

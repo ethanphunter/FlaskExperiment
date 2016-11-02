@@ -54,7 +54,7 @@ class DataBaseUtils(object):
             else:
                 return "Query Error"
         else:
-            "Error Game Not Deleted"
+            return "Error Game Not Deleted"
 
 
     def getGame(self,gameId):
