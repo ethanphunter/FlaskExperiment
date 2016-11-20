@@ -34,10 +34,6 @@ app.config.update(dict(
 app.json_encoder = GameJSONEncoder
 database = PostgresDatabase()
 
-@app.route("/test")
-def test():
-    return str(database.getUser2().getOrElse("Failure"))
-
 # This is how you define a route
 @app.route("/")
 def index():
