@@ -5,6 +5,7 @@ from Games_Module.GameJson import GameJSONDecoder
 from Games_Module.GamesModels import GameDetails
 from UserLoginPackage import changePassword
 from PostgresDatabase import PostgresDatabase
+from passlib.apps import custom_app_context as encryption_context
 
 class PostgresUtils(object):
     def __init__(self):
@@ -152,3 +153,184 @@ class PostgresUtils(object):
                 return Success(1)
             else:
                 return Success(maxGameId + 1)
+
+    def getFriendsForUser(self,username):
+        """
+            Input: username: String
+            Output: Success[List[String]] or Failure
+        """
+        if (self.database.userExists(username).getOrElse(0) != 1):
+            return Failure("User does not exist!")
+        else:
+            maybeFriendCsv = self.database.getFriendsForUser(username)
+            if (maybeFriendCsv.isFailure()):
+                return maybeFriendCsv
+            else:
+                friendsCsv = maybeFriendCsv.get()[0][0]
+                return friendsCsv.split(",")
+
+    def getFriendRequestsForUser(self,username):
+        """
+            Input: username: String
+            Output: Success[List[String]] or Failure
+        """
+        if (self.database.userExists(username).getOrElse(0) != 1):
+            return Failure("User does not exist!")
+        else:
+            maybeFriendRequestsCsv = self.database.getFriendRequestsForUser(username)
+            if (maybeFriendRequestsCsv.isFailure()):
+                return maybeFriendRequestsCsv
+            else:
+                friendRequestsCsv = maybeFriendRequestsCsv.get()[0][0]
+                return friendRequestsCsv.split(",")
+
+    def acceptFriendRequest(self,username,otherUsername):
+        """
+            Input: username: String, otherUsername: String
+            Output: Success[String] or Failure
+        """
+        isRealPlayers = self.playersExist([username,otherUsername])
+        if (isRealPlayers):
+            return Failure("User does not exist!")
+        else:
+            userOneRequests = self.getFriendRequestsForUser(username)
+            userOneFriends  = self.getFriendsForUser(username)
+            userTwoFriends  = self.getFriendsForUser(otherUsername)
+            if (userOneRequests.isFailure()):
+                return userOneRequests
+            elif (userOneFriends.isFailure()):
+                return userOneFriends
+            elif (userTwoFriends.isFailure()):
+                return userTwoFriends
+            else:
+                newUserOneRequests = userOneRequests.getOrElse([])
+                newUserOneFriends  = userOneFriends.getOrElse([])
+                newUserTwoFriends  = userTwoFriends.getOrElse([])
+                if (otherUsername not in newUserOneRequests):
+                    return Failure("Other user is not in users requests")
+                elif (otherUsername in newUserOneFriends or username in newUserTwoFriends):
+                    return Failure("Users are already friends")
+                else:
+                    newUserOneRequests.remove(otherUsername)
+                    newUserOneFriends.append(otherUsername)
+                    newUserTwoFriends.append(username)
+                    resultOne   = self.database.updateFriendRequestList(username,listToCsvString(newUserOneRequests))
+                    resultTwo   = self.database.updateFriendList(username,listToCsvString(newUserOneFriends))
+                    resultThree = self.database.updateFriendList(otherUsername,listToCsvString(newUserTwoFriends))
+                    if (resultOne.isFailure()):
+                        return resultOne
+                    elif (resultTwo.isFailure()):
+                        return resultTwo
+                    elif (resultThree.isFailure()):
+                        return resultThree
+                    else:
+                        return Success("Friend Request Accepted")
+
+    def declineFriendRequest(self,username,otherUsername):
+        """
+            Input: username: String, otherUsername: String
+            Output: Success[String] or Failure
+        """
+        userRequests = self.getFriendRequestsForUser(username)
+        if (userRequests.isFailure()):
+            return userRequests
+        else:
+            newUserRequests = userRequests.getOrElse([])
+            if (otherUsername not in newUserRequests):
+                return Failure("Other user not in users friend requests")
+            else:
+                newUserRequests.remove(otherUsername)
+                result = self.database.updateFriendRequestList(username,listToCsvString(newUserRequests))
+                return result
+
+    def addFriendRequest(self,username,otherUsername):
+        """
+            Input: username: String, otherUsername: String
+            Output: Success[String] or Failure
+            Description: username should be the current user and otherUsername
+                should be the user they are requesting to be friends with.
+        """
+        isRealPlayers = self.playersExist([username,otherUsername])
+        if (not isRealPlayers):
+            return Failure("User does not exist!")
+        else:
+            userOnerequests = self.getFriendRequestsForUser(username)
+            userTwoRequests = self.getFriendRequestsForUser(otherUsername)
+            if (userOnerequests.isFailure()):
+                return userOnerequests
+            elif (userTwoRequests.isFailure()):
+                return userTwoRequests
+            else:
+                userOneRequestsList = csvToList(userOnerequests.getOrElse(""))
+                userTwoRequestsList = csvToList(userTwoRequests.getOrElse(""))
+                if (username in userTwoRequestsList):
+                    return Failure("User has already made this request")
+                elif (otherUsername in new userOneRequestsList):
+                    return Failure("The other user has already sent this user a request")
+                else:
+                    userOneRequestsList.append(otherUsername)
+                    result = self.database.updateFriendRequestList(username,listToCsvString(userOneRequestsList))
+                    return result
+
+    def removeFriend(self,username,friend):
+        """
+            Input: username: String, friend: String
+            Output: Success[String] or Failure
+        """
+        isRealPlayers = self.playersExist([username,friend])
+        if (not isRealPlayers):
+            return Failure("User does not exist!")
+        else:
+            userOneFriends = self.getFriendsForUser(username)
+            userTwoFriends  = self.getFriendsForUser(friend)
+            if (userOneFriends.isFailure()):
+                return userOneFriends
+            if (userTwoFriends.isFailure()):
+                return userTwoFriendsCsv
+            else:
+                userOneFriendsList = csvToList(userOneFriends.getOrElse([]))
+                userTwoFriendsList = csvToList(userTwoFriends.getOrElse([]))
+                if (friend not in userOneFriendsList):
+                    return Failure("User is not friends with this other user")
+                elif (username not in userTwoFriendsList):
+                    return Failure("Friend is not friends with this user")
+                else:
+                    userOneFriendsList.remove(friend)
+                    userTwoFriendsList.remove(username)
+                    resultOne = self.database.updateFriendList(username,listToCsvString(userOneFriendsList))
+                    resultTwo = self.database.updateFriendList(friend,listToCsvString(userTwoFriendsList))
+                    if (resultOne.isFailure()):
+                        return resultOne
+                    elif (resultTwo.isFailure()):
+                        return resultTwo
+                    else:
+                        return Success("Friend Removed")
+
+    def changeUsersPassword(self,username,oldPassword,newPassword):
+        playerExists = self.database.userExists(username)
+        if (playerExists.getOrElse(0) != 1):
+            return Failure("User does not exist!")
+        else:
+            if (username == "uni"):
+                return Failure("Cannot update password")
+            else:
+                maybePasswordHash = self.database.getUsersPassword(username)
+                if (maybePasswordHash.isFailure()):
+                    return Failure("Failed to get users old password")
+                else:
+                    if (encryption_context.verify(oldPassword,maybePasswordHash.getOrElse(""))):
+                        result = self.database.changePassword(username,self.encryptString(newPassword))
+                        if (result.isFailure()):
+                            logResultOne = self.database.enterLogMessage("Update password Query error for user: '" + username + "'")
+                            if (logResultOne.isFailure()):
+                                print(logResultOne.getErrorMessage())
+                            return result
+                        else:
+                            logResultTwo = self.database.enterLogMessage("'" + username + "' changed their password")
+                            if (logResultTwo.isFailure()):
+                                print(logResultTwo.getErrorMessage())
+                            return Success("Password Changed Successfully")
+
+    #Private
+    def encryptString(string):
+        return encryption_context.encrypt(string)
