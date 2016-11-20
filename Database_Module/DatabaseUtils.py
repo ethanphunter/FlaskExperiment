@@ -62,7 +62,6 @@ class DataBaseUtils(object):
         gameData = gameRow[1]
         players = gameRow[2]
         turn = gameRow[3]
-        print(gameData)
         game = self.jsonDecoder.decode(gameData)
         return game
 

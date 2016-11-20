@@ -159,7 +159,8 @@ class Database():
 
     def addGameIdToUser(self,gameId,userName):
         gameIds = self.getGamesForUser(userName)
-        if (gameIds == [(None,)] or [("",)]):
+        print(gameIds)
+        if (gameIds == [(None,)] or gameIds == [("",)]):
             print("No games for " + userName)
             print("Adding game Id " + gameId + " to " + userName)
             newGameIds = gameId
