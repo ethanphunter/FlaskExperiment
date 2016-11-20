@@ -17,6 +17,17 @@ def GamesBluePrintConstructor(dataBaseUtils):
         requireLogin()
         return dbutils.changePassword()
 
+    @GamesBluePrint.route("/removeFriend", methods=["POST"])
+    def removeFriendEndpoint():
+        requireLogin()
+        username = request.form["username"]
+        friend   = request.form["friend"]
+        if (friend == ""):
+            return redirect("/userSettings")
+        error = dbutils.removeFriend(username,friend)
+        print(error)
+        return redirect("/userSettings")
+
     @GamesBluePrint.route("/addFriend", methods=["POST"])
     def addFriend():
         requireLogin()
@@ -51,11 +62,13 @@ def GamesBluePrintConstructor(dataBaseUtils):
         username = session.get("current_user")
         game = dbutils.createGame("ChessGame",[username,otherUsername])
         session["chessGame"] = game
+        session["gameId"] = game.getId()
         return redirect("/board")
 
     @GamesBluePrint.route("/gameList")
     def gameList():
         requireLogin()
+        session["gameId"] = ""
         session["BoardError"] = ""
         username = session.get("current_user")
         games = dbutils.getGamesForUser(username)
@@ -85,6 +98,7 @@ def GamesBluePrintConstructor(dataBaseUtils):
         else:
             game = dbutils.getGame(gameId)
             session["chessGame"] = game
+            session["gameId"] = gameId
             return redirect("/board")
 
     return GamesBluePrint

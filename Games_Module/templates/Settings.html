@@ -30,6 +30,15 @@
             <input type="submit" name="submit" value="Change">
           </form>
         </fieldset>
+        <fieldset>
+          <form action="/removeFriend" method="post">
+            <h5>Un-Friend :(</h5>
+            Friends Username <br>
+            <input type="text" name="friend"> <br>
+            <input type="hidden" name="username" value="{{userName}}">
+            <input type="submit" name="submit" value="Un-Friend">
+          </form>
+        </fieldset>
       </div>
       <div id="Left">
         <h2>Welcome {{userName}}</h2>

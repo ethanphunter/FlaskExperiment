@@ -23,9 +23,6 @@ class Database():
                 port     = parsedUrl.port)
         self.conn.autocommit = True
         self.cursor = self.conn.cursor()
-        if (os.environ.get("TEST") != None):
-                x = os.environ.get("TEST").split("~flask~")
-                self.setUpTestDb(x)
 
     def getQuery(self, queryString):
         try:
@@ -39,6 +36,7 @@ class Database():
     def writeQuery(self, queryString):
         try:
             self.cursor.execute(queryString)
+            return "Success"
         except:
             print("Error executing write query")
             return "Error executing write query"
@@ -47,7 +45,8 @@ class Database():
         from UserLoginPackage import encryptString
         register_default_json(self.conn)
         self.writeQuery("create table users (username text, password text, games text, friends text, friend_requests text, locked_out boolean default false, attempts integer default 4)")
-        self.writeQuery("create table games (game_id text, game_data text, players text, turn text)")
+        self.writeQuery("create table games (game_id text, game_data json, players text, turn text)")
+        print(self.getQuery("select column_name, data_type, character_maximum_length from INFORMATION_SCHEMA.COLUMNS where table_name = 'games'"))
         self.writeQuery("""insert into users (username, password) values ('test1','{}')""".format(encryptString(y[0])))
         self.writeQuery("""insert into users (username, password) values ('test2','{}')""".format(encryptString(y[1])))
 
@@ -115,6 +114,20 @@ class Database():
             newFriendRequestList = listToCsvString(csv)
         return self.writeQuery("""update users set friend_requests = '{friend_requests}'""".format(friend_requests = newFriendRequestList))
 
+    def removeFriend(self,username,friend):
+        oldFriendsCsv = self.getFriendsForUser(username)
+        if (oldFriendsCsv == [(None,)] or oldFriendsCsv == [("",)]):
+            oldFriends = []
+        else:
+            oldFriends = oldFriendsCsv[0][0].split(",")
+        if (friend in oldFriends):
+            oldFriends.remove(friend)
+        else:
+            print("~" + username + "~ is not friends with ~" + friend + "~")
+            return None
+        newFriends = listToCsvString(oldFriends)
+        return self.writeQuery("""update users set friends = '{friends}' where username = '{username}'""".format(friends = newFriends, username = username))
+
     def addFriend(self,username,otherUsername):
         oldFriendRequests = self.getFriendRequestsForUser(username)
         if (oldFriendRequests == [(None,)] or oldFriendRequests == [] or oldFriendRequests == [("",)]):
@@ -132,6 +145,9 @@ class Database():
     def getAllGameIds(self):
         return self.getQuery("""select game_id from games""")
 
+    def getMaxGameId(self):
+        return self.getQuery("""select max(game_id) from games""")
+
     def createGame(self,gameId,gameData,players,turn):
         return self.writeQuery("""insert into games values ('{game_id}', {game_data}, '{players}','{turn}')""".format(game_id = gameId, game_data = Json(gameData), players=players, turn=turn))
 
@@ -143,7 +159,8 @@ class Database():
 
     def addGameIdToUser(self,gameId,userName):
         gameIds = self.getGamesForUser(userName)
-        if (gameIds == [(None,)] or [("",)]):
+        print(gameIds)
+        if (gameIds == [(None,)] or gameIds == [("",)]):
             print("No games for " + userName)
             print("Adding game Id " + gameId + " to " + userName)
             newGameIds = gameId

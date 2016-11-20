@@ -73,16 +73,12 @@ def diagonal(x,y,board):
     downLeftCords  = (y+1, x-1)
     downRightCords = (y+1, x+1)
     if (insideBoard2(upLeftCords)):
-        # upLeft  = boardList[x-1][y+1]
         spaces.append(upLeftCords)
     if (insideBoard2(upRightCords)):
-        # upRight = boardList[x+1][y+1]
         spaces.append(upRightCords)
     if (insideBoard2(downLeftCords)):
-        # downLeft = boardList[x-1][y-1]
         spaces.append(downLeftCords)
     if (insideBoard2(downRightCords)):
-        # downRight = boardList[x+1][y-1]
         spaces.append(downRightCords)
     return spaces
 
@@ -132,16 +128,12 @@ def rightLeftUpDown(x,y,board):
     rightCords = (y,x+1)
     leftCords  = (y,x-1)
     if (insideBoard2(upCords)):
-        # up = boardList[upCords[0]][upCords[1]]
         spaces.append(upCords)
     if (insideBoard2(downCords)):
-        # down = boardList[downCords[0]][downCords[1]]
         spaces.append(downCords)
     if (insideBoard2(rightCords)):
-        # right = boardList[rightCords[0]][rightCords[1]]
         spaces.append(rightCords)
     if (insideBoard2(leftCords)):
-        # left = boardList[leftCords[0]][leftCords[1]]
         spaces.append(leftCords)
     return spaces
 
@@ -193,14 +185,6 @@ def knightMoves(x,y,board):
     (x+2,y+1),
     (x+2,y-1),
     (x+1,y-2)]
-    # upTwoLeftOneCords    = (x-1,y+2)
-    # upOneLeftTwoCords    = (x-2,y+1)
-    # leftTwoDownOneCords  = (x-2,y-1)
-    # leftOneDownTwoCords  = (x-1,y-2)
-    # upTwoRightOneCords   = (x+1,y+2)
-    # upOneRightTwoCords   = (x+2,y+1)
-    # rightTwoDownOneCords = (x+2,y-1)
-    # rightOneDownTwoCords = (x+1,y-2)
     for space in possibleSpaces:
         if (insideBoard(space[0],space[1])):
             spaces.append(space)
@@ -264,31 +248,6 @@ class Pawn(Piece):
 
     def calculateValidSpaces(self,board):
         self.validSpaces = pawnSpaces(self.col,self.row,board,self.color)
-        # if (self.color == "white"):
-        #     column = self.col
-        #     if (self.row == 6):
-        #         self.validSpaces.append((self.row - 2,column))
-        #         self.validSpaces.append((self.row - 1,column))
-        #     else:
-        #         self.validSpaces.append((self.row - 1,column))
-        #     attackRow  = self.row - 1
-        #     attackCols = [self.col - 1, self.col + 1]
-        #     flag = True
-        #     flag2 = True
-        #     if (attackRow < 0 or attackCols[0] < 0):
-        #         flag = False
-        #     if (attackRow >= 8 or attackCols[1] >= 8):
-        #         flag2 = False
-        #     if (flag):
-        #         space = board.getSpace(attackRow,attackCols[0])
-        #         if (isinstance(space.getPiece(), Piece)):
-        #             self.validSpaces.append((attackRow,attackCols[0]))
-        #     if (flag2):
-        #         space = board.getSpace(attackRow,attackCols[1])
-        #         if (isinstance(space.getPiece(), Piece)):
-        #             self.validSpaces.append((attackRow,attackCols[1]))
-        # else:
-        #     self.validSpaces = pawnSpaces(self.col,self.row,board,self.color)
 
 """
 ####################################################################################

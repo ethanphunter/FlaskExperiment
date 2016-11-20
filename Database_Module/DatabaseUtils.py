@@ -38,8 +38,6 @@ class DataBaseUtils(object):
             return None
 
     def updateGame(self,game):
-        print("UpdateGame says it's " + game.getWhoseTurn() + "'s turn")
-        # self.db.deleteGameByGameId(game.getId())
         self.db.updateGame(game.getId(),game.json(),game.getWhoseTurn())
 
     def deleteGame(self,gameId,user):
@@ -56,7 +54,7 @@ class DataBaseUtils(object):
             else:
                 return "Query Error"
         else:
-            "Error Game Not Deleted"
+            return "Error Game Not Deleted"
 
 
     def getGame(self,gameId):
@@ -69,13 +67,13 @@ class DataBaseUtils(object):
 
 
     def getNextGameId(self):
-        gameIds = self.db.getAllGameIds()
-        highest = 0
-        for gameId in gameIds:
-            intedGameId = int(gameId[0])
-            if (intedGameId > highest):
-                highest = intedGameId
-        return highest + 1
+        gameId = 0
+        maybeGameId = self.db.getMaxGameId()
+        if (maybeGameId != [] and maybeGameId != [(None,)]):
+            gameId = maybeGameId[0][0]
+        else:
+            gameId = "1"
+        return int(gameId) + 1
 
     def getFriends(self,username):
         csv = self.db.getFriendsForUser(username)
@@ -99,9 +97,9 @@ class DataBaseUtils(object):
         return toFlaskDelimitedString([x,a])
 
     def declineFriendRequest(self,username,otherUsername):
-        # x = self.db.removeFriendRequest(username,otherUsername)
-        y = self.db.removeFriendRequest(otherUsername,username)
-        return y
+        x = self.db.removeFriendRequest(username,otherUsername)
+        # y = self.db.removeFriendRequest(username,otherUsername)
+        return x
 
     def addFriendRequest(self,username,otherUsername):
         currentFriendsCsv = self.db.getFriendsForUser(username)
@@ -128,6 +126,17 @@ class DataBaseUtils(object):
             else:
                 a = self.db.addFriend(otherUsername,username)
                 return "Request sent"
+
+    def removeFriend(self,username,friend):
+        x = self.db.removeFriend(username,friend)
+        if (x == None):
+            return "Error"
+        else:
+            y = self.db.removeFriend(friend,username)
+            if (y == None):
+                return "Error"
+            else:
+                return "Success"
 
     def changePassword(self):
         return changePassword(self.db)

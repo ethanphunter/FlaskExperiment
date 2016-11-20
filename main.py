@@ -11,10 +11,11 @@ from Games_Module.GamesBluePrint import GamesBluePrintConstructor
 from Games_Module.ChessGame_Module.ChessGameBluePrint import ChessGameBluePrintConstructor
 from Database_Module.RealDatabase import Database
 from Database_Module.DatabaseUtils import DataBaseUtils
+from Database_Module.PostgresDatabase import PostgresDatabase
 from Games_Module.GameJson import *
 
 from flask import Flask, render_template, request, redirect, session
-from UserLoginPackage import login, logout, requireLogin, loginWithRealDb, changePassword
+from UserLoginPackage import logout, requireLogin, loginWithRealDb, changePassword
 from SecretGenerator import getSecretKey
 
 db = Database()
@@ -31,6 +32,7 @@ app.config.update(dict(
     SECRET_KEY = getSecretKey()))
 
 app.json_encoder = GameJSONEncoder
+database = PostgresDatabase()
 
 # This is how you define a route
 @app.route("/")
@@ -70,4 +72,5 @@ def secret():
     return "Current User: " + session.get("current_user")
 
 if (__name__ == "__main__"):
+    # app.run(host='0.0.0.0') #For running on a local network
     app.run()
