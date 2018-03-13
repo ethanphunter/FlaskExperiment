@@ -13,7 +13,3 @@ The following dependancies are a few of the ones I use in this project, you can 
   - passlib `pip install passlib`
   - psycopg2 `pip install psycopg2`
   - Heroku, go to the heroku website to download the tool belt.
-
-test
-
-test 2
