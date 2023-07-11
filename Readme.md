@@ -1,4 +1,5 @@
 # Flask Experiment
+This repository is now archived and is here for educational purposes only. There are multiple security issues in the dependencies used in this project, since I have stopped working on this project I won't be updating this to resolve said issues but wanted to make a note of them here.
 
 [![Build Status](https://travis-ci.org/ethanphunter/FlaskExperiment.svg?branch=master)](https://travis-ci.org/ethanphunter/FlaskExperiment)
 
